@@ -14,25 +14,29 @@ const LoginData = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  var emailValidity = /\S+@\S+/;
-  const handleSubmit = () => {
+  var emailValidity =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //for any kind of email
 
-    if(email.trim()===""){
+  const handleSubmit = () => {
+    if (email.trim() === "") {
       console.log("Email required");
-      setShowEmailRequired(true)
-    }else if(email.trim()!==""){
-      setShowEmailRequired(false)
+      setShowEmailRequired(true);
+    } else if (email.trim() !== "") {
+      setShowEmailRequired(false);
     }
-    if(password.trim()===""){
+    if (password.trim() === "") {
       console.log("Password Required");
-      setshowPasswordRequired(true)
-    }else if(password.trim()!==""){
-      setshowPasswordRequired(false)
+      setshowPasswordRequired(true);
+    } else if (password.trim() !== "") {
+      setshowPasswordRequired(false);
     }
 
     if (
       emailValidity.test(email) &&
-      password.length >= 4
+      password.length >= 8 &&
+      password.match(/[a-z]/g) &&
+      password.match(/[A-Z]/g) &&
+      password.match(/[0-9]/g)
     ) {
       console.log(email, password);
       setShowEmailValid(false);
@@ -50,7 +54,6 @@ const LoginData = () => {
       setShowEmailValid(true);
       console.log("Invalid Email");
       console.log("Invalid Password");
-
     }
   };
 
@@ -120,9 +123,8 @@ const LoginData = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </ThemeProvider>
-            {
-               showEmailRequired?
-               <Typography
+            {showEmailRequired ? (
+              <Typography
                 variant="subtitle2"
                 gutterBottom
                 component="div"
@@ -135,8 +137,7 @@ const LoginData = () => {
               >
                 Email Required
               </Typography>
-              :
-              showEmailValid ?
+            ) : showEmailValid ? (
               <Typography
                 variant="subtitle2"
                 gutterBottom
@@ -150,10 +151,7 @@ const LoginData = () => {
               >
                 Invalid Email
               </Typography>
-              :
-              null 
-
-            }
+            ) : null}
             <Typography
               variant="h5"
               gutterBottom
@@ -177,9 +175,8 @@ const LoginData = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </ThemeProvider>
-            {
-               showPasswordRequired?
-               <Typography
+            {showPasswordRequired ? (
+              <Typography
                 variant="subtitle2"
                 gutterBottom
                 component="div"
@@ -192,8 +189,7 @@ const LoginData = () => {
               >
                 Password Required
               </Typography>
-              :
-              showPasswordValid ?
+            ) : showPasswordValid ? (
               <Typography
                 variant="subtitle2"
                 gutterBottom
@@ -207,10 +203,7 @@ const LoginData = () => {
               >
                 Invalid Password
               </Typography>
-              :
-              null 
-
-            }
+            ) : null}
             <ThemeProvider theme={theme}>
               <Button
                 variant="contained"
